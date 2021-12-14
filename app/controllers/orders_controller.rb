@@ -14,8 +14,8 @@ class OrdersController < ApplicationController
       @order = Order.new(order_params)
   
       if @order.save
-        #WelcomeMailer.with(order: @order).welcome_email.deliver_later
-        #OrderMailer.with(order: @order).new_order_email.deliver_later
+        WelcomeMailer.with(order: @order).welcome_email.deliver_later
+        OrderMailer.with(order: @order).new_order_email.deliver_later
         
         flash[:success] = "Thank you for your order! We'll get contact you soon!"
         redirect_to root_path
@@ -32,7 +32,7 @@ class OrdersController < ApplicationController
         @order = Order.find(params[:id])
         if @order.update(order_params)
             #byebug
-            OrderMailer.with(order: @order).new_order_email.deliver_later
+            OrderMailer.with(order: @order).edit_order_email.deliver_later
             flash[:notice] = "Your order was successfully updated"
             redirect_to @order
         else
@@ -41,7 +41,7 @@ class OrdersController < ApplicationController
     end
     def destroy
       @order = Order.find(params[:id])
-      #OrderMailer.with(order: @order).delete_order_email.deliver_later
+      OrderMailer.with(order: @order).delete_order_email.deliver_later
       @order.destroy
       flash[:notice] = "Order successfully deleted"
       redirect_to root_path

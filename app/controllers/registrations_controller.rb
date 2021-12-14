@@ -5,7 +5,7 @@ class RegistrationsController < ApplicationController
     def create
         @user = User.new(user_params)
         if @user.save
-            #WelcomeUserMailer.with(user: @user).welcome_user_email.deliver_now
+            WelcomeUserMailer.with(user: @user).welcome_user_email.deliver_now
             # stores saved user id in a session
               session[:user_id] = @user.id
               redirect_to root_path, notice: 'Successfully created account'
